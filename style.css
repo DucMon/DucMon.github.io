@@ -1,12 +1,12 @@
 body {
-	width: 100wh;
-	height: 90vh;
+	width: 100%;
 	color: #fff;
 	background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
 	background-size: 400% 400%;
 	-webkit-animation: Gradient 15s ease infinite;
 	-moz-animation: Gradient 15s ease infinite;
 	animation: Gradient 15s ease infinite;
+	margin: 0;
 }
 
 @-webkit-keyframes Gradient {
@@ -44,49 +44,64 @@ body {
 		background-position: 0% 50%
 	}
 }
+h1
+{
+	font-size: 40px;
+}
 .container{
+	margin-top: 10%;
 	text-align: center;
 }
 input, ul li {
 	cursor: pointer;
     position: relative;
-    padding: 12px 8px 12px 20px;
+	padding: 11px 16px;	
     list-style-type: none;
     background: #eee;
     transition: 0.2s;
     text-align: left;
 }
-ul {
-	padding: 0 40%;
-}
-li {
+li {	
 	color: black;
 	margin-bottom: 3px;
 	border-radius: 5px;
 	-webkit-box-shadow: 10px 10px 30px -2px rgba(0,0,0,0.27);
--moz-box-shadow: 10px 10px 30px -2px rgba(0,0,0,0.27);
-box-shadow: 10px 10px 30px -2px rgba(0,0,0,0.27);
+	-moz-box-shadow: 10px 10px 30px -2px rgba(0,0,0,0.27);
+	box-shadow: 10px 10px 30px -2px rgba(0,0,0,0.27);
+}
+#Hour, #Minute, #Meridiem {
+	cursor: pointer;
+    position: relative;
+	padding: 10px 5px;	
+    list-style-type: none;
+    background: #eee;
+    transition: 0.2s;
+    text-align: left;
+    border-radius: 5px;
+}
+.listw{
+	padding: 10px;
 }
 .close{
-	padding: 12px 16px 12px 16px;	
+	padding: 11px 16px;	
 	float: right;
 	position: absolute;
 	top: 0;
 	right: 0;
-
 	border-radius: 5px;
 }
 .close:hover{
 	background-color: red;
 	color: white;
 }
-#addBtn{
-	padding: 18px 15px;
+.addBtn{
+	padding: 11px 13px;
 	background: tomato;
 	cursor: pointer;
-
+	vertical-align: bottom;
+	border-radius: 5px;
 }
-#userInput{
+#userInputToDo , #userInputGoal , #userInputSchedule{
 	border-radius: 5px;
 }
 .inputbox{
@@ -96,4 +111,8 @@ box-shadow: 10px 10px 30px -2px rgba(0,0,0,0.27);
 	background: #51DF70;
 	text-decoration: line-through;
 	color: #00891E;
+}
+.col1{
+	width: 33.33333%;
+	float: left;
 }
