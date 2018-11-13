@@ -1,5 +1,6 @@
 body {
 	width: 100%;
+	height: 100vh;
 	color: #fff;
 	background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
 	background-size: 400% 400%;
@@ -43,6 +44,13 @@ body {
 	100% {
 		background-position: 0% 50%
 	}
+}
+@media only screen and (max-width: 1024px) {
+	.col1{
+		width:100% !important;
+		float: left;
+	}
+
 }
 h1
 {
