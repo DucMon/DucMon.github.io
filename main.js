@@ -1,5 +1,5 @@
 // Initialize Phaser, and creates a 400x490px game
-var game = new Phaser.Game(400, 490, Phaser.AUTO, 'game_div');
+var game = new Phaser.Game(400, 490, Phaser.CANVAS, 'game_div');
 
 // Creates a new 'main' state that will contain the game
 var main_state = {
@@ -14,13 +14,17 @@ var main_state = {
 
         // Load the pipe sprite
         this.game.load.image('pipe', 'assets/pipe.png');    
-
     },
 
     // Fuction called after 'preload' to setup the game 
     create: function() { 
         // Display the bird on the screen
         this.bird = this.game.add.sprite(100, 245, 'bird');
+        this.bird.physicsBodyType = Phaser.Physics.P2JS;
+        for (var i = 0; i < 10; i++)
+    {
+        this.bird.body.setCircle(26);
+    }
         // Add gravity to the bird to make it fall
         this.bird.body.gravity.y = 1000; 
 
@@ -47,20 +51,6 @@ var main_state = {
 
         this.bird.animations.play('fly', 20, true);
 
-        if (game.device.desktop == false) {
-    // Set the scaling mode to SHOW_ALL to show all the game
-    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-
-    // Set a minimum and maximum size for the game
-    // Here the minimum is half the game size
-    // And the maximum is the original game size
-    game.scale.setMinMax(game.width/2, game.height/2, 
-        game.width, game.height);
-
-    // Center the game horizontally and vertically
-    game.scale.pageAlignHorizontally = true;
-    game.scale.pageAlignVertically = true;
-}
     },
 
     // This function is called 60 times per second
