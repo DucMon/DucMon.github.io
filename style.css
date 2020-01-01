@@ -4,9 +4,9 @@ h2 {
 }
 
 #areaForPaint {
-    border: 5px solid darkblue;
+    border: 5px solid black;
     height: 450px;
-    background-color: darkgray;
+    background-color: white;
     width: 500px;
     position: relative;
     left: 50%;

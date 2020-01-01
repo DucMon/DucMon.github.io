@@ -1,70 +1,73 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
-    <title>Paint-js</title>
-    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <title>Paint</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <meta charset="utf-8">
 </head>
+
 <body>
-<h1>Simple paint on js<br> with canvas</h1>
-<div id="content">
-    <div id="tools">
-        <button id="brush">Brash</button>
-        <button id="line">Line</button>
-        <button id="rectangle">Rectangle</button>
-        <button id="circle">Circle</button>
-        <button id="ellipse">Ellipse</button>
-        <button id="spray">Spray</button>
-        <button id="eraser">Eraser</button>
-        <button id="fill">Fill</button>
-        <br>
-        <button id="copy">Copy</button>
-        <button id="copyrand">Copy random area</button>
-        <button id="paste">Paste</button>
-        <button id="text">Text</button>
-        <br><div style="margin-left: 70px">
-        Text size
-        <input type="number" id="text-size" min="6" max="100" value="14">
-        <br>Font
-        <select id="font">
-            <option value="LucidaConsole">Lucida Console</option>
-            <option value="Courier New">Courier New</option>
-            <option value="Arial">Arial</option>
-            <option value="ArialBlack">Arial Black</option>
-        </select></div>
-    </div>
-    <div id="manage">
-        <canvas id="brush_size" width="50" height="50"></canvas>
-        Brash size <input type="range" id="width_range" value="10" min="1">
-        Opacity <input type="range" id="opacity_range" value="100">
-    </div>
-    <div id="colors">
-        <button class="black" id="#000000"></button>
-        <button class="white" id='#FFFFFF'></button>
-        <button class="blue" id='#0000FF'></button>
-        <button class="red" id='#FF0000'></button>
-        <button class="yellow" id='#FFFF00'></button>
-        <button class="green" id='#008000'></button>
-        <input type="color" id="color" value="#0000FF">
-        <input type="hidden" id="color_value_form">
-    </div>
-    <div id="functions">
-        <button id="undo">Undo</button>
-        <button id="redo">Redo</button>
-        <button id="id_download">Save</button>
-        <button id="clear">Clear</button>
+    <h1>Paint</h1>
+    <div id="content">
+        <div id="tools">
+            <button id="brush">Bút</button>
+            <button id="line">Đường thẳng</button>
+            <button id="rectangle">Hình chữ nhật</button>
+            <button id="circle">Vòng tròn</button>
+            <button id="ellipse">Hình ellipse</button>
+            <button id="spray">Sơn</button>
+            <button id="eraser">Tấy</button>
+            <button id="fill">Đổ màu</button>
+            <br>
+            <button id="copy">Sao chép</button>
+            <button id="paste">Dán</button>
+            <button id="text">Viết chữ</button>
+            <br>
+            <div style="margin-left: 70px">
+                Cỡ chữ
+                <input type="number" id="text-size" min="6" max="100" value="14">
+                <br>Font chữ
+                <select id="font">
+                    <option value="LucidaConsole">Lucida Console</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Arial">Arial</option>
+                    <option value="ArialBlack">Arial Black</option>
+                </select></div>
+        </div>
+        <div id="manage">
+            <canvas id="brush_size" width="50" height="50"></canvas>
+            kích thước công cụ <input type="range" id="width_range" value="10" min="1">
+            độ trong suốt <input type="range" id="opacity_range" value="100">
+        </div>
+        <div id="colors">
+            <button class="black" id="#000000"></button>
+            <button class="white" id='#FFFFFF'></button>
+            <button class="blue" id='#0000FF'></button>
+            <button class="red" id='#FF0000'></button>
+            <button class="yellow" id='#FFFF00'></button>
+            <button class="green" id='#008000'></button>
+            <input type="color" id="color" value="#0000FF">
+            <input type="hidden" id="color_value_form">
+        </div>
+        <div id="functions">
+            <button id="undo">Undo</button>
+            <button id="redo">Redo</button>
+            <button id="id_download">Save</button>
+            <button id="clear">Clear</button>
+        </div>
+
+        <div id="areaForPaint">
+            <canvas id="paint"></canvas>
+        </div>
+
+
+
     </div>
 
-    <div id="areaForPaint">
-        <canvas id="paint"></canvas>
-    </div>
-
-
-
-</div>
-
-<script src="jquery.min.js"></script>
-<script src="script.js"></script>
+    <script src="jquery.min.js"></script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>

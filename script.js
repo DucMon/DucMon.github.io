@@ -50,7 +50,6 @@
   var alpha;
   var tool = "brush";
 
-  //По нажатию на кнопку устанавливаем инструмент
   $("#tools")
     .find(":button")
     .on("click", function() {
@@ -58,7 +57,6 @@
       console.log("tool = ", tool);
     });
 
-  //Устанавливаем размер шрифта
   document.getElementById("text-size").addEventListener("change", function() {
     var size = document.getElementById("text-size").value;
     document.getElementById("text_tool").style.fontSize = parseInt(size) + "px";
@@ -69,7 +67,7 @@
     console.log(fontStraa);
     document.getElementById("text_tool").style.fontFamily = fontStraa;
   });
-  //По нажатию на кнопку устанавливаем цвет
+
   $("#colors")
     .find(":button")
     .on("click", function() {
@@ -80,10 +78,8 @@
       tmp_ctx.fillStyle = tmp_ctx.strokeStyle;
       console.log("color = ", tmp_ctx.strokeStyle);
       document.getElementById("color").value = $(this).attr("id");
-      //Рисуем пример нашей линии
       drawBrush();
     });
-  //детальная настройка цвета
   document.getElementById("color").addEventListener("change", function() {
     tmp_ctx.strokeStyle = document.getElementById("color").value;
     r = hexToRgb(tmp_ctx.strokeStyle).r;
@@ -91,16 +87,13 @@
     b = hexToRgb(tmp_ctx.strokeStyle).b;
     tmp_ctx.fillStyle = tmp_ctx.strokeStyle;
     console.log("color = ", tmp_ctx.strokeStyle);
-    //Рисуем пример нашей линии
     drawBrush();
   });
 
-  //При выборе толщины линии отрисовывать новую линию
   document.getElementById("width_range").addEventListener("change", function() {
     tmp_ctx.lineWidth = document.getElementById("width_range").value / 2;
     drawBrush();
   });
-  //При выборе прозрачности линии отрисовывать новую линию
   document
     .getElementById("opacity_range")
     .addEventListener("change", function() {
@@ -111,13 +104,10 @@
       drawBrush();
     });
 
-  //Очистка области
   document.getElementById("clear").addEventListener("click", function() {
     ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
   });
-  //ЗАКАНЧИВАЕМ УСТАНАВЛИВАТЬ НАСТРОЙКИ ИЗ HTML
 
-  //Пример линии
   var drawBrush = function() {
     context_small.clearRect(0, 0, canvas_small.width, canvas_small.height);
 
@@ -130,10 +120,7 @@
     context_small.globalAlpha = tmp_ctx.globalAlpha;
     context_small.fill();
   };
-  //значения по умолчанию
-  //Толщина линии
   tmp_ctx.lineWidth = document.getElementById("width_range").value / 2;
-  //Значения по умолчанию
   tmp_ctx.lineJoin = "round";
   tmp_ctx.lineCap = "round";
   tmp_ctx.strokeStyle = "blue";
@@ -145,11 +132,9 @@
 
   drawBrush();
 
-  //Помещаем пустую область в наш массив для отмены
   empty_canv = canvas.toDataURL();
   undo_arr.push(empty_canv);
 
-  //Устанавливаем координаты мыши на основной и доп. областях
   tmp_canvas.addEventListener(
     "mousemove",
     function(e) {
@@ -220,7 +205,6 @@
       }
       mouse.x = typeof e.offsetX !== "undefined" ? e.offsetX : e.layerX;
       mouse.y = typeof e.offsetY !== "undefined" ? e.offsetY : e.layerY;
-      //если выбрана вставка, то по клику вставляем изображение
 
       if (tool == "copy" || tool == "copyrand") {
         lastColor = tmp_ctx.strokeStyle;
@@ -236,7 +220,6 @@
     false
   );
 
-  //при отпускании мыши прекращаем двигать textarea
   textarea.addEventListener("mouseup", function() {
     tmp_canvas.removeEventListener("mousemove", onPaint, false);
   });
@@ -251,7 +234,6 @@
       if (tool == "paste") {
         if (whatPaste == 2) {
           console.log("xForCopy,yForCopy = ", xForCopy, yForCopy);
-          //создаем временный чтобы не затереть основной
           var imgCopyRandDop = ctx.createImageData(imgCopyRand);
           imgCopyRandDop.data.set(imgCopyRand.data);
           pasteRand(imgCopyRandDop);
@@ -260,10 +242,8 @@
         }
       }
 
-      //отменяем дейсвие стерки
       ctx.globalCompositeOperation = "source-over";
 
-      // Рисуем на настоящий канвас
       if (tool == "copy") {
         tmp_ctx.setLineDash([0, 0]);
         tmp_ctx.strokeStyle = lastColor;
@@ -271,7 +251,6 @@
         tmp_ctx.globalAlpha = lastAlpha;
       }
 
-      // Clearing tmp canvas
       if (tool == "copyrand") {
         tmp_ctx.beginPath();
         tmp_ctx.moveTo(start_mouse.x, start_mouse.y);
@@ -307,42 +286,28 @@
       }
 
       tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
-      // Emptying up Pencil Points
       ppts = [];
 
-      //Помещаем в массив для отмены
       undo_arr.push(canvas.toDataURL());
       undo_count = 0;
     },
     false
   );
 
-  //СОХРАНЕНИЕ ИЗОБРАЖЕНИЯ
-  //вызов функции загрузки
   var callDownload = function() {
     download(paint, "myPicture.png");
   };
-  //по нажатию вызыем функцию callDownload
   document
     .getElementById("id_download")
     .addEventListener("click", callDownload);
-  //загрузка
   function download(canvas, filename) {
-    //create a dummy CANVAS
-
-    // create an "off-screen" anchor tag
     var lnk = document.createElement("a"),
       e;
 
-    // the key here is to set the download attribute of the a tag
     lnk.download = filename;
 
-    // convert canvas content to data-uri for link. When download
-    // attribute is set the content pointed to by link will be
-    // pushed as "download" in HTML5 capable browsers
     lnk.href = canvas.toDataURL();
 
-    // create a "fake" click-event to trigger the download
     if (document.createEvent) {
       e = new MouseEvent("click", {});
 
@@ -352,8 +317,6 @@
     }
   }
 
-  //ОПЕРАЦИЯ ОТМНЫ И ВОЗВРАТА
-  //Отменить
   document.getElementById("undo").addEventListener("click", function() {
     if (undo_arr.length > 1) {
       if (undo_count + 1 < undo_arr.length) {
@@ -378,7 +341,7 @@
       }
     }
   });
-  //Вернуть
+
   document.getElementById("redo").addEventListener("click", function() {
     if (undo_count > 0) {
       undo_count--;
@@ -396,13 +359,9 @@
     ctx.drawImage(undo_img, 0, 0);
   };
 
-  //ОТРИСОВКА ЭЛЕМЕНТОВ
-  //Рисуем карандашом
   var onPaintBrush = function() {
-    //Всегда очищаем временную область перед отрисовкой
     tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
 
-    //Сохраняем все координаты в массив
     ppts.push({ x: mouse.x, y: mouse.y });
 
     if (ppts.length < 3) {
@@ -415,7 +374,6 @@
       return;
     }
 
-    //Всегда очищаем временную область перед отрисовкой
     tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
 
     tmp_ctx.beginPath();
@@ -428,7 +386,6 @@
       tmp_ctx.quadraticCurveTo(ppts[i].x, ppts[i].y, c, d);
     }
 
-    //Для последних двух точек
     tmp_ctx.quadraticCurveTo(
       ppts[i].x,
       ppts[i].y,
@@ -438,9 +395,7 @@
     tmp_ctx.stroke();
   };
 
-  //Рисуем круг
   var onPaintCircle = function() {
-    //Всегда очищаем временную область перед отрисовкой
     tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
 
     var x = (mouse.x + start_mouse.x) / 2;
@@ -458,9 +413,7 @@
     tmp_ctx.closePath();
   };
 
-  //Рисуем прямую линию
   var onPaintLine = function() {
-    //Всегда очищаем временную область перед отрисовкой
     tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
 
     tmp_ctx.beginPath();
@@ -470,9 +423,7 @@
     tmp_ctx.closePath();
   };
 
-  //Рисуем прямоугольник
   var onPaintRect = function() {
-    //Всегда очищаем временную область перед отрисовкой
     tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
 
     var x = Math.min(mouse.x, start_mouse.x);
@@ -482,7 +433,6 @@
     tmp_ctx.strokeRect(x, y, width, height);
   };
 
-  //Рисуем эллипс
   function drawEllipse(ctx) {
     tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
 
@@ -512,7 +462,6 @@
 
   //Стерка
   var onErase = function() {
-    //Сохраняем все точки в массив
     ppts.push({ x: mouse.x, y: mouse.y });
 
     ctx.globalCompositeOperation = "destination-out";
@@ -523,8 +472,6 @@
     if (ppts.length < 3) {
       var b = ppts[0];
       ctx.beginPath();
-      //ctx.moveTo(b.x, b.y);
-      //ctx.lineTo(b.x+50, b.y+50);
       ctx.arc(b.x, b.y, ctx.lineWidth / 2, 0, Math.PI * 2, !0);
       ctx.fill();
       ctx.closePath();
@@ -542,12 +489,10 @@
       ctx.quadraticCurveTo(ppts[i].x, ppts[i].y, c, d);
     }
 
-    // For the last 2 points
     ctx.quadraticCurveTo(ppts[i].x, ppts[i].y, ppts[i + 1].x, ppts[i + 1].y);
     ctx.stroke();
   };
 
-  //Спрей
   var getRandomOffset = function(radius) {
     var random_angle = Math.random() * (2 * Math.PI);
     var random_radius = Math.random() * radius;
@@ -558,7 +503,6 @@
     };
   };
   var generateSprayParticles = function() {
-    // Particle count, or, density
     var density = tmp_ctx.lineWidth * 2;
 
     for (var i = 0; i < density; i++) {
@@ -571,9 +515,7 @@
     }
   };
 
-  //копировать
   var onCopy = function() {
-    //Всегда очищаем временную область перед отрисовкой
     tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
 
     console.log(lastWidth);
@@ -592,9 +534,7 @@
     whatPaste = 1;
   };
 
-  //рисуем текст
   var onText = function() {
-    // Tmp canvas is always cleared up before drawing.
     tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
 
     console.log(tmp_ctx);
@@ -611,7 +551,6 @@
     textarea.style.display = "block";
   };
 
-  //Заливка
   var onFill = function(opasity_alpha) {
     var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     var width = imageData.width;
@@ -628,19 +567,16 @@
 
       // Alpha
       point = pixel[1] * 4 * width + pixel[0] * 4 + 3;
-      // Если это не рамка и ещё не закрасили
       if (
         imageData.data[point] != opasity_alpha &&
         imageData.data[point] != 255 &&
         (imageData.data[point] > 255 || imageData.data[point] < 5)
       ) {
-        // Закрашиваем
         imageData.data[point] = opasity_alpha;
         imageData.data[point - 3] = r; //Red
         imageData.data[point - 2] = g; //Green
         imageData.data[point - 1] = b; //Blue
 
-        // Ставим соседей в стек на проверку
         stack.push([pixel[0] - 1, pixel[1]]);
         stack.push([pixel[0] + 1, pixel[1]]);
         stack.push([pixel[0], pixel[1] - 1]);
@@ -651,7 +587,6 @@
   };
 
   var onCopyRand = function() {
-    //Сохраняем все координаты в массив
     ppts.push({ x: mouse.x, y: mouse.y });
     tmp_ctx.globalAlpha = 1;
     tmp_ctx.strokeStyle = "black";
@@ -666,7 +601,6 @@
       return;
     }
 
-    //Всегда очищаем временную область перед отрисовкой
     tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
 
     tmp_ctx.beginPath();
@@ -679,7 +613,6 @@
       tmp_ctx.quadraticCurveTo(ppts[i].x, ppts[i].y, c, d);
     }
 
-    //Для последних двух точек
     tmp_ctx.quadraticCurveTo(
       ppts[i].x,
       ppts[i].y,
@@ -716,19 +649,15 @@
 
       point = pixel[1] * 4 * width + pixel[0] * 4 + 3;
       point1 = (pixel[1] - dy) * 4 * width + (pixel[0] - dx) * 4 + 3;
-      // Если это не рамка и ещё не закрасили
       if (imgDataRand.data[point] != 255 && imgDataRand.data[point] < 1) {
-        // Устанасливаем какие уже проверили
         if (imgDataRand.data[point] == 0) {
           imgDataRand.data[point] = 2;
         }
-        //копируем данные на основной холст
         imageData.data[point1] = imgCopyRandMain.data[point];
         imageData.data[point1 - 1] = imgCopyRandMain.data[point - 1];
         imageData.data[point1 - 2] = imgCopyRandMain.data[point - 2];
         imageData.data[point1 - 3] = imgCopyRandMain.data[point - 3];
 
-        // Ставим соседей в стек на проверку
         stack.push([pixel[0] - 1, pixel[1]]);
         stack.push([pixel[0] + 1, pixel[1]]);
         stack.push([pixel[0], pixel[1] - 1]);
@@ -751,6 +680,7 @@
   };
 
   var onPaint = function() {
+    console.log(alpha);
     if (tool == "brush") {
       onPaintBrush();
     } else if (tool == "circle") {
